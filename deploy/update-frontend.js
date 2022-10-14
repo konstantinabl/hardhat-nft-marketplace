@@ -1,6 +1,6 @@
 const { ethers, network } = require("hardhat")
-const frontEndContractsFile = FRONT_END_CONTRACTS_FILE_PATH
-const frontEndAbiFile = FRONT_END_ABI_FILE
+const frontEndContractsFile = process.env.FRONT_END_CONTRACTS_FILE_PATH
+const frontEndAbiFile = process.env.FRONT_END_ABI_FILE
 const fs = require("fs")
 
 module.exports = async function () {

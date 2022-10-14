@@ -6,12 +6,12 @@ module.exports = async function deploy({ getNamedAccounts, deployments }) {
     const { deployer } = await getNamedAccounts()
     const { deploy, log } = deployments
 
-    arg = []
+    args = []
     log("----------")
     log("Deploying")
     const nftMarketplace = await deploy("NftMarketplace", {
         from: deployer,
-        arguments: arg,
+        arguments: args,
         log: true,
         waitConfirmations: network.config.waitConfirmations || 1,
     })

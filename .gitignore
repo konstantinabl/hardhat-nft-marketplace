@@ -6,4 +6,5 @@ src/README.md
 src/.next
 artifacts
 cache
+coverage
 

@@ -20,10 +20,8 @@ async function mintAndList() {
     console.log("Listed!")
     const listedItems = await nftMarketplace.fetchListedItems()
     if (network.config.chainId == 31337) {
-        // Moralis has a hard time if you move more than 1 at once!
         await moveBlocks(1, (sleepAmount = 1000))
     }
-    console.log(listedItems)
 }
 
 mintAndList()

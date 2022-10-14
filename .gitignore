@@ -1,0 +1,9 @@
+**/node_modules
+gas-report.txt
+.env
+.DS_Store
+src/README.md
+src/.next
+artifacts
+cache
+

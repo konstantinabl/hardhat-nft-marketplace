@@ -76,6 +76,10 @@ contract NftMarketplace is ReentrancyGuard {
         _;
     }
 
+    /*
+     * @notice Method for removing an element from an array by index
+     * @param index The index of the element to be removed
+     */
     function remove(uint256 index) public {
         //Move the last element into the place to delete
         uint256 lastIndex = listings.length - 1;
@@ -83,6 +87,10 @@ contract NftMarketplace is ReentrancyGuard {
         listings.pop();
     }
 
+    /*
+     * @notice Method for getting index of element in array by tokenId
+     * @param tokenId The tokenId of the NFT
+     */
     function getIndex(uint256 tokenId) public view returns (uint256) {
         for (uint256 i = 0; i < listings.length; i++) {
             if (listings[i].tokenId == tokenId) {
@@ -152,6 +160,12 @@ contract NftMarketplace is ReentrancyGuard {
         emit ItemBought(msg.sender, nftAddress, tokenId, listedItem.price);
     }
 
+    /*
+     * @notice Method for canceling a listing
+     * @param nftAddress the address of the NFT thats gonna be bought
+     * @param tokenId the tokenId of the NFT to be bought
+     *
+     */
     function cancelListing(address nftAddress, uint256 tokenId)
         external
         isOwner(nftAddress, tokenId, msg.sender)
@@ -164,6 +178,12 @@ contract NftMarketplace is ReentrancyGuard {
         emit ItemCancelled(msg.sender, nftAddress, tokenId);
     }
 
+    /*
+     * @notice Method for updating an already listed NFT
+     * @param nftAddress the address of the NFT thats gonna be bought
+     * @param tokenId the tokenId of the NFT to be bought
+     * @param newPrice the new price of the NFT
+     */
     function updateListing(
         address nftAddress,
         uint256 tokenId,
@@ -182,6 +202,9 @@ contract NftMarketplace is ReentrancyGuard {
         emit ItemListed(msg.sender, nftAddress, tokenId, newPrice);
     }
 
+    /*
+     * @notice Method for withdrawing the money from selling an NFT
+     */
     function withdrawProceeds() external {
         uint256 proceeds = s_proceeds[msg.sender];
         if (proceeds <= 0) {

@@ -1,8 +1,6 @@
 const { ethers, network } = require("hardhat")
-const frontEndContractsFile =
-    "/Users/konstantinabl/solidity-crash-course/hardhat-nft-markeplace/src/constants/networkMapping.json"
-const frontEndAbiFile =
-    "/Users/konstantinabl/solidity-crash-course/hardhat-nft-markeplace/src/constants/"
+const frontEndContractsFile = FRONT_END_CONTRACTS_FILE_PATH
+const frontEndAbiFile = FRONT_END_ABI_FILE
 const fs = require("fs")
 
 module.exports = async function () {

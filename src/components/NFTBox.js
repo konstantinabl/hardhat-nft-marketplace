@@ -29,10 +29,9 @@ export default function NFTBox({ price, nftAddress, tokenId, marketplaceAddress,
     const hideModal = () => {
         setShowModal(false)
     }
-    const { chainId: chainIdHex, isWeb3Enabled, web3, account } = useMoralis()
+    const { isWeb3Enabled, account } = useMoralis()
     const dispatch = useNotification()
-    //getTokenURI
-    // using the image tag  from the uri, get tha image
+
     const { runContractFunction: getTokenURI } = useWeb3Contract({
         abi: nftAbi,
         contractAddress: nftAddress,
@@ -67,7 +66,6 @@ export default function NFTBox({ price, nftAddress, tokenId, marketplaceAddress,
             setImageURI(imageURIURL)
             setTokenName(tokenURIResponse.name)
             setTokenDescription(tokenURIResponse.description)
-            // we could render the image on the server
             // for testnets and main nets useNFTBalance
         }
     }
@@ -78,10 +76,8 @@ export default function NFTBox({ price, nftAddress, tokenId, marketplaceAddress,
         }
     }, [isWeb3Enabled])
 
-    //wrong
+    // To fix:
     const isOwnedByUser = seller == account || seller === undefined
-    // console.log("Account", account)
-    // console.log("Seller", seller)
     const formattedSellerAddress = isOwnedByUser ? "you" : truncateStr(seller || "", 15)
 
     const handleCardClick = () => {

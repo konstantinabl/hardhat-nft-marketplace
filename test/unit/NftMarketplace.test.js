@@ -68,7 +68,6 @@ const { deployments, ethers, getNamedAccounts } = require("hardhat")
               it("gets correct index", async function () {
                   await nftMarketplace.listItem(basicNft.address, TOKEN_ID, PRICE)
                   await nftMarketplace.listItem(basicNft.address, token_id_2, PRICE)
-                  const fetchedItems = await nftMarketplace.fetchListedItems()
                   const index = await nftMarketplace.getIndex(TOKEN_ID)
                   const index2 = await nftMarketplace.getIndex(token_id_2)
                   assert.equal(index, 0)
@@ -132,6 +131,75 @@ const { deployments, ethers, getNamedAccounts } = require("hardhat")
                   const array_listings = await nftMarketplace.fetchListedItems()
                   assert(listings.price == 0)
                   expect(array_listings).to.deep.equal([])
+              })
+          })
+
+          describe("updateListing", function () {
+              it("reverts if not listed", async function () {
+                  const error = `NftMarketplace__NotListed("${basicNft.address}", ${TOKEN_ID})`
+                  await expect(
+                      nftMarketplace.updateListing(
+                          basicNft.address,
+                          TOKEN_ID,
+                          ethers.utils.parseEther("0.2")
+                      )
+                  ).to.be.revertedWith(error)
+              })
+
+              it("reverts if request not from owner", async function () {
+                  await nftMarketplace.listItem(basicNft.address, TOKEN_ID, PRICE)
+                  nftMarketplace = nftMarketplaceContract.connect(user)
+                  await expect(
+                      nftMarketplace.updateListing(
+                          basicNft.address,
+                          TOKEN_ID,
+                          ethers.utils.parseEther("0.2")
+                      )
+                  ).to.be.revertedWith("NftMarketplace_NotOwner")
+              })
+
+              it("reverts if new price is less than or equal to zero", async function () {
+                  await nftMarketplace.listItem(basicNft.address, TOKEN_ID, PRICE)
+                  await expect(
+                      nftMarketplace.updateListing(basicNft.address, TOKEN_ID, 0)
+                  ).to.be.revertedWith("NftMarketplace__CannotSetToZero")
+              })
+
+              it("updates mapping and array correctly", async function () {
+                  const price = ethers.utils.parseEther("0.2")
+                  await nftMarketplace.listItem(basicNft.address, TOKEN_ID, PRICE)
+                  await nftMarketplace.updateListing(basicNft.address, TOKEN_ID, price)
+                  const listing = await nftMarketplace.getListing(basicNft.address, TOKEN_ID)
+                  const array = await nftMarketplace.fetchListedItems()
+                  let array_listing
+                  for (let i = 0; i < array.length; i++) {
+                      if (array[i].tokenId == TOKEN_ID) {
+                          array_listing = array[i]
+                      }
+                  }
+                  assert(listing.price.toString() == price)
+                  assert(array_listing.price.toString() == price)
+              })
+          })
+
+          describe("withdrawProceeds", function () {
+              it("reverts if balance is zero", async function () {
+                  await expect(nftMarketplace.withdrawProceeds()).to.be.revertedWith(
+                      "NftMarketplace__BalanceIsZero"
+                  )
+              })
+              it("updates proceeds mapping correctly", async function () {
+                  const PRICE_1 = ethers.utils.parseEther("0.4")
+                  const PRICE_2 = ethers.utils.parseEther("1")
+                  await nftMarketplace.listItem(basicNft.address, TOKEN_ID, PRICE_1)
+                  await nftMarketplace.listItem(basicNft.address, token_id_2, PRICE_2)
+                  nftMarketplace = nftMarketplaceContract.connect(user)
+                  await nftMarketplace.buyItem(basicNft.address, TOKEN_ID, { value: PRICE_1 })
+                  await nftMarketplace.buyItem(basicNft.address, token_id_2, { value: PRICE_2 })
+                  nftMarketplace = nftMarketplaceContract.connect(deployer)
+                  await nftMarketplace.withdrawProceeds()
+                  const proceeds = await nftMarketplace.getProceeds(deployer.address)
+                  assert(proceeds.toString() == 0)
               })
           })
       })

@@ -77,7 +77,7 @@ export default function NFTBox({ price, nftAddress, tokenId, marketplaceAddress,
     }, [isWeb3Enabled])
 
     // To fix:
-    const isOwnedByUser = seller == account || seller === undefined
+    const isOwnedByUser = seller.toLowerCase() == account.toLowerCase() || seller === undefined
     const formattedSellerAddress = isOwnedByUser ? "you" : truncateStr(seller || "", 15)
 
     const handleCardClick = () => {
@@ -86,7 +86,6 @@ export default function NFTBox({ price, nftAddress, tokenId, marketplaceAddress,
             : buyItem({
                   onError: (error) => {
                       console.log(error)
-                      console.log("wtf")
                   },
                   onSuccess: () => handleBuyItemSuccess,
               })

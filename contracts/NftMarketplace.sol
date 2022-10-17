@@ -193,7 +193,6 @@ contract NftMarketplace is ReentrancyGuard {
             revert NftMarketplace__CannotSetToZero();
         }
         s_listings[nftAddress][tokenId].price = newPrice;
-        console.log(s_listings[nftAddress][tokenId].price);
         for (uint256 i = 0; i < listings.length; i++) {
             if (listings[i].tokenId == tokenId) {
                 listings[i].price = newPrice;

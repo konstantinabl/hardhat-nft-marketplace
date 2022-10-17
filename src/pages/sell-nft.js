@@ -88,7 +88,6 @@ export default function SellNft() {
                 title="Sell your NFT!"
                 id="mainForm"
             ></Form>
-            Sell Page
         </div>
     )
 }

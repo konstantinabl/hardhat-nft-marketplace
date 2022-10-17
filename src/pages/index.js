@@ -38,9 +38,7 @@ export default function Home() {
             updateUI()
         }
     }, [isWeb3Enabled])
-    //console.log(data)
-    //console.log(fetchedItems)
-    // if i use date it is not working properly
+
     return (
         <div className="container mx-auto">
             <div className="flex flex-wrap">
@@ -49,7 +47,6 @@ export default function Home() {
                         ((<div>Loading....</div>), console.log("Loading"))
                     ) : (
                         fetchedItems.map((nft) => {
-                            console.log("Nft", nft)
                             return (
                                 <div className="p-2">
                                     <NFTBox

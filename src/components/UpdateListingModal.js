@@ -3,7 +3,6 @@ import { useState } from "react"
 import { useWeb3Contract } from "react-moralis"
 import nftMarketplaceAbi from "../constants/NftMarketplace.json"
 import { ethers } from "ethers"
-import { use } from "chai"
 
 export default function UpdateListingModal({
     nftAddress,
@@ -14,9 +13,7 @@ export default function UpdateListingModal({
 }) {
     const dispatch = useNotification()
     const [priceToUpdateListingWith, setPriceToUpdateListingWith] = useState(0)
-    console.log(tokenId.toString())
     const handleUpdateListingSuccess = async (tx) => {
-        //console.log("sth")
         await tx.wait(1)
         dispatch({
             type: "success",
@@ -28,7 +25,7 @@ export default function UpdateListingModal({
         onClose && onClose()
         setPriceToUpdateListingWith(0)
     }
-    //console.log(tokenId)
+
     console.log("Price", ethers.utils.parseEther(priceToUpdateListingWith.toString()))
     const { runContractFunction: updateListing } = useWeb3Contract({
         abi: nftMarketplaceAbi,
@@ -36,7 +33,7 @@ export default function UpdateListingModal({
         functionName: "updateListing",
         params: {
             nftAddress: nftAddress,
-            tokenId: tokenId.toString(),
+            tokenId: tokenId,
             newPrice: ethers.utils.parseEther(priceToUpdateListingWith.toString() || "0"),
         },
     })
@@ -49,7 +46,6 @@ export default function UpdateListingModal({
                 updateListing({
                     onError: (error) => {
                         console.log(error)
-                        console.log("hi")
                     },
                     onSuccess: () => handleUpdateListingSuccess,
                 })
@@ -61,7 +57,6 @@ export default function UpdateListingModal({
                 type="number"
                 onChange={(event) => {
                     setPriceToUpdateListingWith(event.target.value)
-                    //console.log(priceToUpdateListingWith)
                 }}
             />
         </Modal>

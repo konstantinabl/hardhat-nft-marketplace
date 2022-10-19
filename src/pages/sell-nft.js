@@ -103,6 +103,9 @@ export default function SellNft() {
     return (
         <div className={styles.container}>
             <Form
+                buttonConfig={{
+                    theme: "primary",
+                }}
                 data={[
                     { name: "Nft Address", type: "text", inputWidth: "50%", key: "nftAddress" },
                     {
@@ -122,7 +125,11 @@ export default function SellNft() {
                 title="Sell your NFT!"
                 id="mainForm"
             ></Form>
-            <div> Withdraw {proceeds} proceeds from sold NFTs</div>
+            <div>
+                <h1 className="text-white text-xl p-2">
+                    Withdraw {proceeds} proceeds from sold NFTs
+                </h1>
+            </div>
             <Button
                 onClick={() => {
                     runContractFunction({
@@ -138,6 +145,8 @@ export default function SellNft() {
                 }}
                 text="Withdraw"
                 type="button"
+                theme="colored"
+                color="yellow"
             ></Button>
         </div>
     )

@@ -6,7 +6,7 @@ import { NotificationProvider } from "web3uikit"
 
 function MyApp({ Component, pageProps }) {
     return (
-        <div>
+        <div className="bg-scroll bg-[url('../styles/background-image.jpg')] bg-cover h-screen">
             <Head>
                 <title>Nft Marketplace</title>
                 <meta name="description" content="Nft MarketPlace" />

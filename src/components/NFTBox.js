@@ -95,7 +95,7 @@ export default function NFTBox({ price, nftAddress, tokenId, marketplaceAddress,
         <div>
             <div>
                 {imageURI ? (
-                    <div>
+                    <div className="pt-2">
                         <UpdateListingModal
                             isVisible={showModal}
                             nftAddress={nftAddress}
@@ -110,8 +110,8 @@ export default function NFTBox({ price, nftAddress, tokenId, marketplaceAddress,
                         >
                             <div className="p-2">
                                 <div className="flex flex-col items-end gap-2">
-                                    <div>#{tokenId.toString()}</div>
-                                    <div className="italic text-sm">
+                                    <div className="text-rose-dust">#{tokenId.toString()}</div>
+                                    <div className="italic text-sm text-rose-dust">
                                         Owned by {formattedSellerAddress}
                                     </div>
                                     <Image
@@ -120,7 +120,7 @@ export default function NFTBox({ price, nftAddress, tokenId, marketplaceAddress,
                                         height="200"
                                         width="200"
                                     />
-                                    <div className="font-bold">
+                                    <div className="font-bold text-rose-dust">
                                         {ethers.utils.formatUnits(price, "ether")} ETH
                                     </div>
                                 </div>
